@@ -10,7 +10,7 @@
       margin: 0;
       padding: 0;
       background: linear-gradient(45deg, #FF5733, #FFBD33, #33FF57, #33FFBD, #5733FF, #BD33FF);
-      background-size: 600% 600%;
+      background-size: 400% 400%;
       animation: gradientBG 10s ease infinite;
       color: #fff;
     }
@@ -33,17 +33,20 @@
       position: fixed;
       width: 100%;
       z-index: 1000;
+      text-align: center;
     }
 
     header h1 {
       margin: 0;
       font-size: 36px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
 
     nav ul {
       list-style-type: none;
       padding: 0;
       text-align: center;
+      margin: 0;
     }
 
     nav ul li {
@@ -64,7 +67,8 @@
     }
 
     main {
-      padding-top: 80px;
+      padding-top: 120px;
+      padding-bottom: 80px;
     }
 
     section {
@@ -72,16 +76,42 @@
       padding: 20px;
       background-color: rgba(0, 0, 0, 0.5);
       border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     }
 
     section h2 {
       margin-top: 0;
+      text-align: center;
+      font-size: 28px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
     }
 
     .music-player {
       background-color: rgba(255, 255, 255, 0.3);
       padding: 20px;
       border-radius: 10px;
+      text-align: center;
+    }
+
+    .music-player audio {
+      width: 100%;
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .gallery img {
+      margin: 10px;
+      max-width: 300px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .contact-info {
+      text-align: center;
     }
 
     .footer {
@@ -91,6 +121,41 @@
       position: fixed;
       bottom: 0;
       width: 100%;
+    }
+
+    @media screen and (max-width: 768px) {
+      header {
+        padding: 10px;
+      }
+
+      header h1 {
+        font-size: 24px;
+      }
+
+      nav ul li a {
+        padding: 8px 16px;
+      }
+
+      main {
+        padding-top: 80px;
+        padding-bottom: 60px;
+      }
+
+      section h2 {
+        font-size: 24px;
+      }
+
+      .music-player {
+        padding: 16px;
+      }
+
+      .gallery img {
+        max-width: 200px;
+      }
+
+      .footer {
+        padding: 16px;
+      }
     }
   </style>
 </head>
@@ -133,7 +198,7 @@
 
     <section id="gallery">
       <h2>Gallery</h2>
-      <div class="image-gallery">
+      <div class="gallery">
         <!-- Add images of the band performing or album covers -->
         <img src="image1.jpg" alt="Image 1">
         <img src="image2.jpg" alt="Image 2">
@@ -144,17 +209,17 @@
 
     <section id="contact">
       <h2>Contact</h2>
-      <p>Have a question or want to book us for a gig? Reach out to us:</p>
-      <ul>
-        <li>Email: info@enemiesofeverybody.com</li>
-        <li>Phone: +1 (555) 123-4567</li>
-        <li>Follow us on social media:</li>
-        <li>
+      <div class="contact-info">
+        <p>Have a question or want to book us for a gig? Reach out to us:</p>
+        <p>Email: info@enemiesofeverybody.com</p>
+        <p>Phone: +1 (555) 123-4567</p>
+        <p>Follow us on social media:</p>
+        <p>
           <a href="#">Facebook</a>
           <a href="#">Twitter</a>
           <a href="#">Instagram</a>
-        </li>
-      </ul>
+        </p>
+      </div>
     </section>
   </main>
 
