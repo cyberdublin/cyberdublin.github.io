@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WW2 Spy Radio Tuning Game</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Courier New', monospace;
+             font-family: 'Courier New', Courier, monospace;
+    background: #2e2e2e url('../1.jpg') no-repeat center fixed;
+    background-size: cover;
+ 
+          
+            margin: 0;
+            color: #f1f1f1;
+            text-align: center;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+		.background {
+			color: black;
+		}
+		
+		
+	
+		
+        .game-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+            border: 3px solid #FFD700;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color: #FFD700;
+            text-shadow: 3px 3px 4px rgba(0, 0, 0, 0.8);
+            text-transform: uppercase;
+        }
+
+        .radio {
+            margin: 30px 0;
+        }
+
+        .frequency-display {
+            font-size: 1.8em;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+
+        #tuner {
+            display: block;
+            margin: 10px auto;
+            width: 80%;
+            transition: all 0.3s ease;
+            background-color: #444;
+            border-radius: 5px;
+            height: 8px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: #007BFF;
+            color: white;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        .graphic-button {
+            font-size: 2.5em;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            text-align: center;
+            line-height: 70px;
+            background: #28a745;
+            color: white;
+            margin: 5px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .graphic-button:hover {
+            background: #218838;
+            transform: scale(1.2);
+        }
+
+        #result-message {
+            margin-top: 20px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .spy-info {
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #FFD700;
+        }
+
+        .flash {
+            animation: flash 1s ease-in-out infinite;
+        }
+
+        @keyframes flash {
+            0% { color: #FFD700; }
+            50% { color: #FF5733; }
+            100% { color: #FFD700; }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>WW2 Spy Radio</h1>
+        <p>Target Frequency: <span id="target-frequency"></span> unknown ...searching ...MHz...</p>
+        <div class="radio">
+            <div class="frequency-display">
+                Current Frequency: <span id="current-frequency">87.5</span> MHz
+            </div>
+            <input type="range" id="tuner" min="87.5" max="108.0" step="0.1" value="87.5">
+        </div>
+        <div class="button-container">
+            <button id="decrease-button" class="graphic-button">-</button>
+            <button id="check-button">Decrypt</button>
+            <button id="increase-button" class="graphic-button">+</button>
+        </div>
+        <p id="result-message"></p>
+        <p class="spy-info" id="spy-message"></p>
+    </div>
+
+    <footer>
+        <p>Good luck, Agent. Complete your mission discreetly!</p>
+    </footer>
+
+    <!-- MP3 sound files -->
+    <audio id="success-sound-1" src="sound/button-1.mp3"></audio>
+    <audio id="success-sound-2" src="sound/button-2.mp3"></audio>
+    <audio id="success-sound-3" src="sound/button-3.mp3"></audio>
+    <audio id="success-sound-4" src="sound/button-4.mp3"></audio>
+    <audio id="success-sound-5" src="sound/button-5.mp3"></audio>
+
+    <script>
+        // DOM Elements
+        const targetFrequencySpan = document.getElementById('target-frequency');
+        const tunerInput = document.getElementById('tuner');
+        const currentFrequencySpan = document.getElementById('current-frequency');
+        const checkButton = document.getElementById('check-button');
+        const decreaseButton = document.getElementById('decrease-button');
+        const increaseButton = document.getElementById('increase-button');
+        const resultMessage = document.getElementById('result-message');
+        const spyMessage = document.getElementById('spy-message');
+        
+        // Hardcoded sound files
+        const soundFiles = [
+            document.getElementById('success-sound-1'),
+            document.getElementById('success-sound-2'),
+            document.getElementById('success-sound-3'),
+            document.getElementById('success-sound-4'),
+            document.getElementById('success-sound-5')
+        ];
+
+        // Spy Messages
+        const spyMessages = [
+            "Message decoded: Rendezvous at 2300 hours.",
+            "Hold the line for more messages....",
+            "We will send further messages on this channel....",
+            "Message incoming....",
+            "Encryption cracked: Await further instructions.",
+            "Code accepted: Mission parameters updated.",
+            "Well done, Agent. Proceed with caution.",
+            "Decoded: Transmission secure. Good luck."
+        ];
+
+        // Generate random target frequency between 87.5 and 108.0
+        const targetFrequency = (Math.random() * (108.0 - 87.5) + 87.5).toFixed(1);
+        //targetFrequencySpan.textContent = targetFrequency;
+
+        // Update current frequency display
+        function updateCurrentFrequency() {
+            currentFrequencySpan.textContent = tunerInput.value;
+        }
+
+        // Check if tuned frequency matches target frequency
+        function checkFrequency() {
+            const tunedFrequency = parseFloat(tunerInput.value);
+            if (Math.abs(tunedFrequency - targetFrequency) <= 0.2) {
+                resultMessage.textContent = '🎉 Transmission intercepted successfully!';
+                resultMessage.style.color = '#28a745';
+                playSuccessSound();
+                showSpyMessage();
+            } else {
+                resultMessage.textContent = '❌ Decryption failed. Adjust your tuning.';
+                resultMessage.style.color = '#dc3545';
+            }
+        }
+
+        // Play a random success sound
+        function playSuccessSound() {
+            const randomSound = soundFiles[Math.floor(Math.random() * soundFiles.length)];
+            randomSound.play();
+        }
+
+        // Display a spy message
+        function showSpyMessage() {
+            const randomMessage = spyMessages[Math.floor(Math.random() * spyMessages.length)];
+            spyMessage.textContent = randomMessage;
+            spyMessage.classList.add("flash");
+            setTimeout(() => spyMessage.classList.remove("flash"), 2000);
+        }
+
+        // Increase the frequency
+        function increaseFrequency() {
+            const currentValue = parseFloat(tunerInput.value);
+            if (currentValue < 108.0) {
+                tunerInput.value = (currentValue + 0.1).toFixed(1);
+                updateCurrentFrequency();
+            }
+        }
+
+        // Decrease the frequency
+        function decreaseFrequency() {
+            const currentValue = parseFloat(tunerInput.value);
+            if (currentValue > 87.5) {
+                tunerInput.value = (currentValue - 0.1).toFixed(1);
+                updateCurrentFrequency();
+            }
+        }
+
+        // Event Listeners
+        tunerInput.addEventListener('input', updateCurrentFrequency);
+        checkButton.addEventListener('click', checkFrequency);
+        increaseButton.addEventListener('click', increaseFrequency);
+        decreaseButton.addEventListener('click', decreaseFrequency);
+    </script>
+</body>
+</html>
+

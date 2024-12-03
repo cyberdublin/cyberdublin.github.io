@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advice from Dr. Hayes</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #121212;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            
+    
+    font-family: 'Courier New', Courier, monospace;
+    background: #2e2e2e url('5.jpg') no-repeat center fixed;
+    background-size: cover;
+    color: #f5f5dc;
+
+            
+            
+        }
+
+        .container {
+            text-align: center;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            width: 80%;
+            max-width: 600px;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            outline: none;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        #advice {
+            margin-top: 20px;
+            font-size: 20px;
+            font-style: italic;
+        }
+
+        #newAdviceBtn {
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome, Student</h1>
+        <h2>You will now meet with Dr. Richard Hayes</h2>
+        <p id="advice"></p>
+        <button id="newAdviceBtn">Request New Advice</button>
+    </div>
+    <script>
+        const adviceList = [
+            "Keep pushing forward, no matter the obstacles.",
+            "Remember to take breaks and rest your mind.",
+            "Stay curious and keep asking questions.",
+            "Collaboration is key; don't hesitate to ask for help.",
+            "Focus on understanding the concepts, not just memorizing.",
+            "Stay organized and manage your time wisely.",
+            "Believe in yourself and your abilities.",
+            "Stay positive, even when things get tough.",
+            "Embrace challenges as opportunities to grow.",
+            "We believe that the spy walked from the middle of Meath to Dublin",
+            "That was a report of the spy enjoying a Guinness in the Morgue",
+            "245 seems to be the location...",
+            "I've been investigating if the Germans are using microdots to communicate",
+            "Sometimes several rounds of encoding are used to obsecure a message...",
+            "The hard you work, the luckier that you will get...",
+            "There is always more to be found.  Persist!",
+            "Goertz is a talented fellow.  He uses a cipher system that he himself created",
+            "I must tell you that I have uncovered some German messages that are using a Vigenére cipher",
+            "I believe the Germans are searching for a certain 'Captain Grey' ",
+            "Learn from your mistakes and keep improving."
+        ];
+
+        function getRandomAdvice() {
+            const randomIndex = Math.floor(Math.random() * adviceList.length);
+            return adviceList[randomIndex];
+        }
+
+        function displayAdvice() {
+            const adviceElement = document.getElementById('advice');
+            adviceElement.textContent = getRandomAdvice();
+        }
+
+        document.getElementById('newAdviceBtn').addEventListener('click', displayAdvice);
+
+        window.onload = displayAdvice;
+    </script>
+</body>
+</html>
